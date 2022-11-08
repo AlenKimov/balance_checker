@@ -2,5 +2,6 @@
 /balance_checker/settings
 /balance_checker/test.py
 /balance_checker/log
+/balance_checker/output
 .venv
 .idea
