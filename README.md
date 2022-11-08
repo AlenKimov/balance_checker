@@ -1,5 +1,5 @@
 # Web3 Balance Checker
-Checks address balances using [DeBank API](https://docs.open.debank.com/en/).
+Checks address balances using DeBank API.
 
 ## Установка и использование
 1. Скачиваем и устанавливаем [Python 3.10.8](https://www.python.org/downloads/release/python-3108/).
