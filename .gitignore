@@ -1,0 +1,6 @@
+/balance_checker/__pycache__
+/balance_checker/settings
+/balance_checker/test.py
+/balance_checker/log
+.venv
+.idea
