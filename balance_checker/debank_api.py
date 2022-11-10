@@ -12,9 +12,7 @@ from model import AddressData
 from utils import cut_list
 
 
-def update_data_list_address_balances_async(data_list: list[AddressData],
-                                            limit: int = 8,
-                                            timeout: int = 60):
+def update_data_list_address_balances(data_list: list[AddressData], limit: int = 8, timeout: int = 60):
     logger.info("Попытка запросить балансы адресов..")
 
     url = 'https://api.debank.com/user/addr'
@@ -49,28 +47,28 @@ def update_data_list_address_balances_async(data_list: list[AddressData],
             sleep(timeout)
 
 
-def update_data_list_address_balances(data_list: list[AddressData],
-                                      min_timeout: float = 1, max_timeout: float = 2):
-    logger.info("Попытка запроса балансов адресов..")
-
-    url = 'https://api.debank.com/user/addr'
-
-    session = requests.session()
-    for data in tqdm(data_list):
-        response = session.get(url, params={'addr': data.address})
-        if response.status_code == 200:
-            response_json = response.json()
-            if response_json['error_code'] == 1:
-                logger.error(f"[{data.address}] Не удалось запросить баланс: неверный адрес")
-            else:
-                data.balance = response_json["data"].get('usd_value', 0)
-                logger.success(f"[{data.address}] Баланс: ${data.balance:.1f}")
-        else:
-            logger.error(f"[{data.address}] Не удалось запросить баланс: ошибка {response.status_code}")
-
-        timeout = random.uniform(min_timeout, max_timeout)
-        logger.info(f"Ожидание {timeout:.2f} секунд..")
-        sleep(timeout)
+# def update_data_list_address_balances(data_list: list[AddressData],
+#                                       min_timeout: float = 1, max_timeout: float = 2):
+#     logger.info("Попытка запроса балансов адресов..")
+#
+#     url = 'https://api.debank.com/user/addr'
+#
+#     session = requests.session()
+#     for data in tqdm(data_list):
+#         response = session.get(url, params={'addr': data.address})
+#         if response.status_code == 200:
+#             response_json = response.json()
+#             if response_json['error_code'] == 1:
+#                 logger.error(f"[{data.address}] Не удалось запросить баланс: неверный адрес")
+#             else:
+#                 data.balance = response_json["data"].get('usd_value', 0)
+#                 logger.success(f"[{data.address}] Баланс: ${data.balance:.1f}")
+#         else:
+#             logger.error(f"[{data.address}] Не удалось запросить баланс: ошибка {response.status_code}")
+#
+#         timeout = random.uniform(min_timeout, max_timeout)
+#         logger.info(f"Ожидание {timeout:.2f} секунд..")
+#         sleep(timeout)
 
 
 def get_social_ranking_addresses(page_to: int = 1) -> list[str]:
