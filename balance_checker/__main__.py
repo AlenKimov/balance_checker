@@ -11,28 +11,28 @@ from output import save_data_list_to_output
 
 
 def main():
-    Account.enable_unaudited_hdwallet_features()
+    data_list: list[AddressData] = list()
 
-    data: list[AddressData] = list()
     for address in addresses:
-        data.append(AddressData(address=address))
+        data_list.append(AddressData(address=address))
 
     for private_key in private_keys:
         try:
             account: LocalAccount = Account.from_key(private_key=private_key)
-            data.append(AddressData(address=account.address, private_key=private_key))
+            data_list.append(AddressData(address=account.address, private_key=private_key))
         except Exception:  # binascii.Error
             logger.error(f"[{private_key}] Неверный приватный ключ")
 
+    Account.enable_unaudited_hdwallet_features()
     for mnemonic in mnemonics:
         try:
             account: LocalAccount = Account.from_mnemonic(mnemonic=mnemonic)
-            data.append(AddressData(address=account.address, mnemonic=mnemonic))
+            data_list.append(AddressData(address=account.address, mnemonic=mnemonic))
         except eth_utils.exceptions.ValidationError:
             logger.error(f"[{mnemonic}] Неверная мнемоническая фраза")
 
-    update_data_list_address_balances(data, timeout=settings.timeout)
-    save_data_list_to_output(data)
+    update_data_list_address_balances(data_list, timeout=settings.timeout)
+    save_data_list_to_output(data_list)
 
 
 if __name__ == '__main__':
