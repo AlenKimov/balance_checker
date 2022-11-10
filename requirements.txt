@@ -4,3 +4,5 @@ aiohttp~=3.8.3
 pyuseragents~=1.0.5
 tqdm~=4.64.1
 toml~=0.10.2
+eth-account~=0.5.9
+requests~=2.28.1
