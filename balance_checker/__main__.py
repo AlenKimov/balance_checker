@@ -31,7 +31,7 @@ def main():
         except eth_utils.exceptions.ValidationError:
             logger.error(f"[{mnemonic}] Неверная мнемоническая фраза")
 
-    update_data_list_address_balances(data_list, timeout=settings.timeout)
+    update_data_list_address_balances(data_list, min_timeout=settings.min_timeout, max_timeout=settings.max_timeout)
     save_data_list_to_output(data_list)
 
 

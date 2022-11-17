@@ -14,7 +14,8 @@ MNEMONICS_TXT    = Path(SETTINGS_DIR, 'mnemonics.txt')
 
 
 class Settings(BaseModel):
-    timeout: int = 60
+    min_timeout: int = 10
+    max_timeout: int = 20
 
 
 settings = Settings()
