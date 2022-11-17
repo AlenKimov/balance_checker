@@ -15,7 +15,7 @@ Checks address balances using DeBank API.
 ```toml
 # Таймаут между запросами:
 TIMEOUT = 30
-# Количество кошельков за запрос:
+# Количество адресов за запрос:
 LIMIT = 8
 ```
 
