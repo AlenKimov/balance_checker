@@ -1,37 +1,14 @@
-from eth_account import Account
-from eth_account.signers.local import LocalAccount
-import eth_utils
-
 # Скрипты проекта
-from config import addresses, private_keys, mnemonics, settings
-from logger import logger
-from model import AddressData
-from debank_api import update_data_list_address_balances
+from config import settings, addresses, private_keys, mnemonics
+from data_list import create_data_list
+from debank import update_data_list_balances
 from output import save_data_list_to_output
 
 
 def main():
-    data_list: list[AddressData] = list()
-
-    for address in addresses:
-        data_list.append(AddressData(address=address))
-
-    for private_key in private_keys:
-        try:
-            account: LocalAccount = Account.from_key(private_key=private_key)
-            data_list.append(AddressData(address=account.address, private_key=private_key))
-        except Exception:  # binascii.Error
-            logger.error(f"[{private_key}] Неверный приватный ключ")
-
-    Account.enable_unaudited_hdwallet_features()
-    for mnemonic in mnemonics:
-        try:
-            account: LocalAccount = Account.from_mnemonic(mnemonic=mnemonic)
-            data_list.append(AddressData(address=account.address, mnemonic=mnemonic))
-        except eth_utils.exceptions.ValidationError:
-            logger.error(f"[{mnemonic}] Неверная мнемоническая фраза")
+    data_list = create_data_list(addresses, private_keys, mnemonics)
     try:
-        update_data_list_address_balances(data_list, timeout=settings.timeout, limit=settings.limit)
+        update_data_list_balances(data_list, settings.timeout, settings.limit)
     finally:
         save_data_list_to_output(data_list)
 

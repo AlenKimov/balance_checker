@@ -32,6 +32,6 @@ def save_data_list_to_output(data_list: list[AddressData]):
         with open(output_toml_path, 'w', encoding='utf-8') as output_toml:
             if toml_data_to_dump: toml.dump(toml_data_to_dump, output_toml)
 
-        logger.success(f'[{new_output_dir}] Данные об адресах записаны')
+        logger.success(f'[{new_output_dir}] Данные об адресах успешно записаны')
     else:
         logger.warning(f'Адресов с балансами не обнаружено')
