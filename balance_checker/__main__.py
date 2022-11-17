@@ -30,9 +30,10 @@ def main():
             data_list.append(AddressData(address=account.address, mnemonic=mnemonic))
         except eth_utils.exceptions.ValidationError:
             logger.error(f"[{mnemonic}] Неверная мнемоническая фраза")
-
-    update_data_list_address_balances(data_list)
-    save_data_list_to_output(data_list)
+    try:
+        update_data_list_address_balances(data_list, timeout=settings.timeout, limit=settings.limit)
+    finally:
+        save_data_list_to_output(data_list)
 
 
 if __name__ == '__main__':
