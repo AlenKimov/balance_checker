@@ -1,7 +1,7 @@
 from loguru import logger
 from datetime import datetime
 from os import makedirs
-from tqdm import tqdm
+import sys
 from pathlib import Path
 
 # Скрипты проекта
@@ -18,7 +18,7 @@ def set_up_logger():
     log_file_name = f"{datetime.now().strftime('%d-%m-%Y')}.log"
     log_file_path = Path(LOG_DIR, log_file_name)
     logger.add(log_file_path, format=LOG_FILE_FORMAT, level="DEBUG", rotation='1 day')
-    logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True, format=CONSOLE_FORMAT, level="DEBUG")
+    logger.add(sys.stderr, colorize=True, format=CONSOLE_FORMAT, level="DEBUG")
 
 
 set_up_logger()
