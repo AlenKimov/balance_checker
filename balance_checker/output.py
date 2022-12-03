@@ -14,7 +14,7 @@ makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 def save_data_list_to_output(data_list: list[AddressData]):
-    logger.info(f'Попытка записи данных об адресах..')
+    logger.info(f'Attempting to write data to a file..')
     json_data_to_dump = [data.dict() for data in data_list if data.balance is not None and data.balance > 0]
     toml_data_to_dump = {data.address: data.dict() for data in data_list if data.balance is not None and data.balance > 0}
     if json_data_to_dump and toml_data_to_dump:
@@ -32,6 +32,6 @@ def save_data_list_to_output(data_list: list[AddressData]):
         with open(output_toml_path, 'w', encoding='utf-8') as output_toml:
             if toml_data_to_dump: toml.dump(toml_data_to_dump, output_toml)
 
-        logger.success(f'[{new_output_dir}] Данные об адресах успешно записаны')
+        logger.success(f'[{new_output_dir}] Address data was successfully written to the file')
     else:
-        logger.warning(f'Адресов с балансами не обнаружено')
+        logger.warning(f'No addresses with balances were found')

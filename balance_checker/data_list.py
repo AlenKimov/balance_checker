@@ -23,7 +23,7 @@ def create_data_list(addresses: list[str] = None,
                 account: LocalAccount = Account.from_key(private_key=private_key)
                 data_list.append(AddressData(address=account.address, private_key=private_key))
             except Exception:  # binascii.Error
-                logger.error(f"[{private_key}] Неверный приватный ключ")
+                logger.error(f"[{private_key}] Wrong private key")
 
     if mnemonics:
         Account.enable_unaudited_hdwallet_features()
@@ -32,6 +32,6 @@ def create_data_list(addresses: list[str] = None,
                 account: LocalAccount = Account.from_mnemonic(mnemonic=mnemonic)
                 data_list.append(AddressData(address=account.address, mnemonic=mnemonic))
             except eth_utils.exceptions.ValidationError:
-                logger.error(f"[{mnemonic}] Неверная мнемоническая фраза")
+                logger.error(f"[{mnemonic}] Wrong mnemonic")
 
     return data_list
