@@ -8,7 +8,7 @@ from output import save_data_list_to_output
 def main():
     data_list = create_data_list(addresses, private_keys, mnemonics)
     try:
-        update_data_list_balances(data_list, settings.TIMEOUT, settings.LIMIT)
+        update_data_list_balances(data_list, timeout=settings.TIMEOUT, limit=settings.LIMIT)
     finally:
         save_data_list_to_output(data_list)
 
