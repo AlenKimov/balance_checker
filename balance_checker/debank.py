@@ -1,5 +1,5 @@
 import aiohttp
-from aiohttp.client import ClientSession
+from aiohttp.client import ClientSession, ClientTimeout
 import asyncio
 import requests
 from time import sleep
@@ -10,11 +10,14 @@ from logger import logger
 from model import AddressData
 
 
+client_timeout = ClientTimeout(total=100)
+
+
 def update_data_list_balances(data_list: list[AddressData], limit: int = 5, timeout: int = 30):
     url = "https://api.debank.com/user/total_balance"
 
     async def _get_usd_value(session: ClientSession, data: AddressData):
-        response = await session.get(url, params={'addr': data.address}, timeout=2)
+        response = await session.get(url, params={'addr': data.address})
         try:
             response_json = await response.json()
             data.balance = response_json["data"].get('total_usd_value', 0)
@@ -24,7 +27,7 @@ def update_data_list_balances(data_list: list[AddressData], limit: int = 5, time
 
     async def _get_address_balances(data_list: list[AddressData]):
         headers = {'user-agent': random_useragent()}
-        async with aiohttp.ClientSession(headers=headers) as session:
+        async with aiohttp.ClientSession(headers=headers, timeout=client_timeout) as session:
             tasks = []
             for data in data_list:
                 tasks.append(asyncio.create_task(_get_usd_value(session, data)))
